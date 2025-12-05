@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PatientIntakeInput } from "@/lib/types";
+import { PatientIntakeInput, PatientIntake } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
 import PersonalInfoStep from "./steps/PersonalInfoStep";
 import MetricsStep from "./steps/MetricsStep";
@@ -10,6 +10,10 @@ import MedicalHistoryStep from "./steps/MedicalHistoryStep";
 import MedicationsStep from "./steps/MedicationsStep";
 import ComplaintStep from "./steps/ComplaintStep";
 import ReviewStep from "./steps/ReviewStep";
+
+interface IntakeFormProps {
+  onFormSubmit: (intakeData: PatientIntake) => void;
+}
 
 const STEPS = [
   "Personal Info",
@@ -42,15 +46,12 @@ const initialFormData: Omit<PatientIntakeInput, "user_id"> = {
   primary_complaint: "other",
 };
 
-export default function IntakeForm() {
+export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
   const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitResult, setSubmitResult] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const updateFormData = (updates: Partial<typeof formData>) => {
     setFormData((prev) => ({ ...prev, ...updates }));
@@ -69,14 +70,18 @@ export default function IntakeForm() {
   };
 
   const handleSubmit = async () => {
+    if (!user) {
+      setSubmitError("You must be signed in to submit the form.");
+      return;
+    }
+
     setIsSubmitting(true);
-    setSubmitResult(null);
+    setSubmitError(null);
 
     try {
-      // Use the authenticated user's ID
       const payload: PatientIntakeInput = {
         ...formData,
-        user_id: user?.id || "",
+        user_id: user.id,
       };
 
       const response = await fetch("/api/intake", {
@@ -88,24 +93,13 @@ export default function IntakeForm() {
       const result = await response.json();
 
       if (result.success) {
-        setSubmitResult({
-          success: true,
-          message: "Intake form submitted successfully!",
-        });
-        // Reset form
-        setFormData(initialFormData);
-        setCurrentStep(0);
+        // Pass the full intake data back to the parent page
+        onFormSubmit(result.data);
       } else {
-        setSubmitResult({
-          success: false,
-          message: result.error || "Failed to submit form",
-        });
+        setSubmitError(result.error || "Failed to submit form");
       }
     } catch (error) {
-      setSubmitResult({
-        success: false,
-        message: "An error occurred while submitting the form",
-      });
+      setSubmitError("An error occurred while submitting the form");
     } finally {
       setIsSubmitting(false);
     }
@@ -167,15 +161,9 @@ export default function IntakeForm() {
       </div>
 
       {/* Submit Result Message */}
-      {submitResult && (
-        <div
-          className={`mb-4 p-4 rounded-lg ${
-            submitResult.success
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {submitResult.message}
+      {submitError && (
+        <div className="mb-4 p-4 rounded-lg bg-red-100 text-red-800">
+          {submitError}
         </div>
       )}
 
@@ -202,7 +190,7 @@ export default function IntakeForm() {
             disabled={isSubmitting}
             className="px-6 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? "Submitting..." : "Submit & Analyze"}
           </button>
         )}
       </div>
