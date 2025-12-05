@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import IntakeForm from "@/components/IntakeForm";
-import AnalysisResult from "@/components/AnalysisResult";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { AIAnalysisResult, PatientIntake } from "@/lib/types";
@@ -34,9 +33,8 @@ export default function IntakePage() {
 
       const result = await response.json();
 
-      if (result.success) {
-        setAnalysisResult(result.data);
-        setAnalysisState("success");
+      if (result.success && result.data?.id) {
+        router.push(`/dashboard?id=${result.data.id}`);
       } else {
         setAnalysisError(result.error || "Failed to analyze data.");
         setAnalysisState("error");
@@ -84,18 +82,6 @@ export default function IntakePage() {
           <p className="text-gray-600">
             Please wait while our AI assistant reviews the information.
           </p>
-        </div>
-      )}
-
-      {analysisState === "success" && analysisResult && (
-        <div className="max-w-2xl mx-auto px-6">
-          <AnalysisResult result={analysisResult} />
-          <button
-            onClick={() => setAnalysisState("idle")}
-            className="mt-6 w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Start New Intake
-          </button>
         </div>
       )}
 
