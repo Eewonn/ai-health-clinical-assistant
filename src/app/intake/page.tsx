@@ -34,7 +34,7 @@ export default function IntakePage() {
       const result = await response.json();
 
       if (result.success && result.data?.id) {
-        router.push(`/dashboard?id=${result.data.id}`);
+        router.push(`/analysis/${result.data.id}`);
       } else {
         setAnalysisError(result.error || "Failed to analyze data.");
         setAnalysisState("error");
