@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 
 export default function AuthForm() {
@@ -9,6 +10,7 @@ export default function AuthForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const { signInWithEmail, signUpWithEmail, signInWithGoogle } = useAuth();
 
@@ -23,6 +25,8 @@ export default function AuthForm() {
 
     if (!result.success) {
       setError(result.error || "An error occurred");
+    } else {
+      router.push("/intake");
     }
 
     setIsLoading(false);

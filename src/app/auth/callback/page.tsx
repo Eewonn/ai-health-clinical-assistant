@@ -13,7 +13,7 @@ export default function AuthCallback() {
       if (error) {
         console.error("Error during auth callback:", error);
       }
-      router.push("/");
+      router.push("/intake");
     };
 
     handleAuthCallback();
