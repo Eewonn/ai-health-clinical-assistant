@@ -18,7 +18,7 @@ export default function LifestyleStep({ formData, updateFormData }: Props) {
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">Lifestyle</h2>
         <p className="text-lg font-medium text-neutral-500">
@@ -26,7 +26,7 @@ export default function LifestyleStep({ formData, updateFormData }: Props) {
         </p>
       </div>
 
-      <div className="space-y-10">
+      <div className="space-y-6">
         <div className="space-y-5">
           <Label htmlFor="exercise" className="ml-4">Exercise level *</Label>
           <IntakeSelect

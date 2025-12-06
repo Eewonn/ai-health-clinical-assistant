@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
       medical_history: body.medical_history,
       medications: body.medications,
       primary_complaint: body.primary_complaint,
+      full_body_image: body.full_body_image,
       intake_date: new Date().toISOString(),
     };
 

@@ -12,7 +12,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "AI Health Clinical Assistant",
+  title: "Sola",
   description: "AI-powered health clinical assistant",
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({
         className={`${nunito.variable} min-h-screen bg-background text-foreground antialiased font-sans`}
       >
         <AuthProvider>
-          <div className="relative flex min-h-screen flex-col">
+          <div className="relative min-h-screen flex flex-col">
             <SiteHeader />
             <main className="flex-1">{children}</main>
           </div>

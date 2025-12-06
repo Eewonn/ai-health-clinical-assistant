@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { AIAnalysisResult, PatientIntake } from "@/lib/types";
 import { Button } from "@/modules/ui/components/button";
 
+import LoadingSpinner from "@/components/LoadingSpinner";
+
 export default function IntakePage() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
@@ -51,11 +53,7 @@ export default function IntakePage() {
   };
 
   if (isLoading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-background">
-        <p className="text-sm text-muted-foreground">Loading...</p>
-      </main>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!user) {
@@ -63,19 +61,14 @@ export default function IntakePage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center pt-[70px] pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen w-full flex justify-center items-start mt-20 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-[700px]">
         {analysisState === "idle" && (
           <IntakeForm onFormSubmit={handleFormSubmit} />
         )}
 
         {analysisState === "loading" && (
-          <div className="space-y-2 text-center py-10">
-            <h2 className="text-xl font-semibold">Analyzing data...</h2>
-            <p className="text-sm text-muted-foreground">
-              Please wait while the AI assistant reviews the information.
-            </p>
-          </div>
+          <LoadingSpinner text="Analyzing data... Please wait while the AI assistant reviews the information." />
         )}
 
         {analysisState === "error" && (

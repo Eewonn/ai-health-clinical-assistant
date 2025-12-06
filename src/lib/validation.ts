@@ -57,13 +57,8 @@ export function validatePatientIntake(
     });
   }
 
-  // Blood pressure validation
-  if (!data.blood_pressure?.trim()) {
-    errors.push({
-      field: "blood_pressure",
-      message: "Blood pressure is required",
-    });
-  } else if (!/^\d{2,3}\/\d{2,3}$/.test(data.blood_pressure)) {
+  // Blood pressure validation (Optional)
+  if (data.blood_pressure?.trim() && !/^\d{2,3}\/\d{2,3}$/.test(data.blood_pressure)) {
     errors.push({
       field: "blood_pressure",
       message: "Blood pressure must be in format like 120/80",

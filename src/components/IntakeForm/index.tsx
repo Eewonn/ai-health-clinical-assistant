@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PatientIntakeInput, PatientIntake } from "@/lib/types";
 import { validatePatientIntake } from "@/lib/validation";
 import { useAuth } from "@/lib/auth-context";
@@ -12,7 +12,8 @@ import MedicationsStep from "./steps/MedicationsStep";
 import ComplaintStep from "./steps/ComplaintStep";
 import ReviewStep from "./steps/ReviewStep";
 import { Button } from "@/modules/ui/components/button";
-import { Progress } from "@/modules/ui/components/progress";
+
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 interface IntakeFormProps {
   onFormSubmit: (intakeData: PatientIntake) => void;
@@ -47,6 +48,7 @@ const initialFormData: Omit<PatientIntakeInput, "user_id"> = {
   },
   medications: [],
   primary_complaint: "other",
+  full_body_image: "",
 };
 
 export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
@@ -72,6 +74,27 @@ export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Avoid navigation when typing in inputs
+      if (
+        document.activeElement?.tagName === "INPUT" ||
+        document.activeElement?.tagName === "TEXTAREA"
+      ) {
+        return;
+      }
+
+      if (e.key === "ArrowRight") {
+        nextStep();
+      } else if (e.key === "ArrowLeft") {
+        prevStep();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentStep]);
+
   const handleSubmit = async () => {
     if (!user) {
       setSubmitError("You must be signed in to submit the form.");
@@ -91,7 +114,7 @@ export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
       const validationErrors = validatePatientIntake(payload);
       if (validationErrors.length > 0) {
         setSubmitError(
-          `Validation failed: ${validationErrors.map((e) => e.message).join(", ")}`
+          `Validation failed: ${validationErrors.map((e) => e.message).join(", ")}`,
         );
         setIsSubmitting(false);
         return;
@@ -161,60 +184,66 @@ export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
   };
 
   return (
-    <div className="space-y-10 rounded-xl p-10 max-w-3xl mx-auto">
-      <div className="space-y-4 text-center mb-10">
+    <div className="mx-auto flex max-w-3xl flex-col gap-5 p-10">
+      <div className="space-y-4 text-center">
         <h1 className="text-[32px] font-extrabold tracking-tight text-neutral-700">
           Patient Intake
         </h1>
-        <p className="text-lg font-medium text-neutral-500">
-          Complete the steps below so the AI assistant can generate a clinical
-          summary and treatment plan.
+        <p className="text-lg font-medium leading-6 text-neutral-500">
+          Complete the steps below so the AI assistant <br /> can generate a
+          clinical summary and treatment plan.
         </p>
       </div>
 
-      {/* Progress Indicator */}
-      <div className="space-y-2 mt-20">
-        <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
-          <span>Step {currentStep + 1}</span>
-          <span>{STEPS[currentStep]}</span>
-          <span>
-            {currentStep + 1}/{STEPS.length}
-          </span>
-        </div>
-        <Progress value={((currentStep + 1) / STEPS.length) * 100} />
+      <div className="mb-2 flex w-full gap-1.5">
+        {STEPS.map((_, index) => (
+          <div
+            key={index}
+            className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${index <= currentStep ? "bg-[#ff4b4b]" : "bg-[#e5e5e5]"
+              }`}
+          />
+        ))}
       </div>
 
       {/* Form Content */}
-      <div className="rounded-xl bg-background p-6">{renderStep()}</div>
+      <div className="rounded-xl bg-background p-6">
+        {renderStep()}
+      </div>
 
       {/* Submit Result Message */}
       {submitError && (
-        <div className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+        <div className="rounded-md bg-[#ff4b4b]/10 px-4 py-3 text-sm font-medium text-[#ff4b4b]">
           {submitError}
         </div>
       )}
 
       {/* Navigation Buttons */}
-      <div className="flex items-center mt-20 justify-between pt-2">
+      <div className="mt-2 flex items-center justify-between">
         <Button
-          className="h-[45px] w-[110px] rounded-xl border-2 border-[#e5e5e5] bg-white text-[13px] font-extrabold tracking-wider text-[#3E9001] shadow-[0_4px_0_#e5e5e5] transition hover:bg-slate-50 active:shadow-none active:translate-y-[4px] uppercase"
+          className="h-[45px] w-[110px] rounded-xl border-2 border-[#e5e5e5] bg-white text-[13px] font-extrabold tracking-wider text-[#3E9001] uppercase shadow-[0_4px_0_#e5e5e5] transition hover:bg-slate-50 active:translate-y-[4px] active:shadow-none"
           onClick={prevStep}
           disabled={currentStep === 0}
         >
+          <ChevronLeft className="mr-1 h-3 w-3 stroke-[3]" />
           Previous
         </Button>
 
         {currentStep < STEPS.length - 1 ? (
           <Button
-            className="h-[45px] w-[110px] rounded-xl bg-[#ff4b4b] text-[13px] font-extrabold tracking-widest text-white shadow-[0_4px_0_#ea2b2b] transition active:shadow-none active:translate-y-[4px] uppercase hover:bg-[#ff5c5c]"
+            className="h-[45px] w-[110px] rounded-xl bg-[#ff4b4b] text-[13px] font-extrabold tracking-widest text-white uppercase shadow-[0_4px_0_#ea2b2b] transition hover:bg-[#ff5c5c] active:translate-y-[4px] active:shadow-none"
             onClick={nextStep}
           >
             Next
+            <ChevronRight className="ml-1 h-3 w-3 stroke-[3]" />
           </Button>
         ) : (
-          <Button onClick={handleSubmit} disabled={isSubmitting}>
+          <button
+            className="h-[50px] w-[230px] rounded-xl bg-[#ff4b4b] text-[15px] font-extrabold tracking-widest text-white uppercase shadow-[0_5px_0_#ea2b2b] transition hover:bg-[#ff5c5c] active:translate-y-[5px] active:shadow-none"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Submitting..." : "Submit & Analyze"}
-          </Button>
+          </button>
         )}
       </div>
     </div>

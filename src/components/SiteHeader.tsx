@@ -36,8 +36,14 @@ export function SiteHeader() {
     <header className="fixed flex items-center justify-center top-0 z-50 w-full bg-[#fdfcfd] border-b border-gray-300">
       <div className="mx-auto flex h-[70px] w-full max-w-[1000px] items-center justify-between px-4 lg:px-0">
         <Link href="/" className="flex items-center gap-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/header-icon.png"
+            alt="Icon"
+            className="w-8 h-8 -rotate-12"
+          />
           <span className="text-2xl font-extrabold tracking-tight text-[#ff4b4b]">
-            Health.ai
+            Sola
           </span>
         </Link>
 

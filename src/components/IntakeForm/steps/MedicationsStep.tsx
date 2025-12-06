@@ -9,7 +9,9 @@ import { Badge } from "@/modules/ui/components/badge";
 
 interface Props {
   formData: Omit<PatientIntakeInput, "user_id">;
-  updateFormData: (updates: Partial<Omit<PatientIntakeInput, "user_id">>) => void;
+  updateFormData: (
+    updates: Partial<Omit<PatientIntakeInput, "user_id">>,
+  ) => void;
 }
 
 const emptyMedication: Medication = {
@@ -23,7 +25,12 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
   const [newMed, setNewMed] = useState<Medication>(emptyMedication);
 
   const addMedication = () => {
-    if (newMed.name.trim() && newMed.dose.trim() && newMed.frequency && newMed.route) {
+    if (
+      newMed.name.trim() &&
+      newMed.dose.trim() &&
+      newMed.frequency &&
+      newMed.route
+    ) {
       updateFormData({
         medications: [...formData.medications, { ...newMed }],
       });
@@ -38,16 +45,18 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">Medications</h2>
+        <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">
+          Medications
+        </h2>
         <p className="text-lg font-medium text-neutral-500">
           List any current medications to help us identify contraindications.
         </p>
       </div>
 
       {/* Add new medication form */}
-      <div className="space-y-5 rounded-xl border bg-muted/30 p-4">
+      <div className="space-y-5 rounded-xl bg-muted/30 p-4">
         <p className="text-sm font-semibold text-foreground">Add medication</p>
 
         <div className="grid grid-cols-2 gap-5">
@@ -65,7 +74,9 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
           />
           <IntakeSelect
             value={newMed.frequency}
-            onChange={(e) => setNewMed({ ...newMed, frequency: e.target.value })}
+            onChange={(e) =>
+              setNewMed({ ...newMed, frequency: e.target.value })
+            }
           >
             <option value="">Select frequency</option>
             <option value="once daily">Once daily</option>
@@ -89,14 +100,7 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
           </IntakeSelect>
         </div>
 
-        <Button
-          type="button"
-          onClick={addMedication}
-          disabled={!newMed.name || !newMed.dose || !newMed.frequency || !newMed.route}
-          className="w-full"
-        >
-          Add medication
-        </Button>
+
       </div>
 
       {/* Medications list */}
@@ -107,7 +111,8 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
 
         {formData.medications.length === 0 ? (
           <p className="py-4 text-center text-sm text-muted-foreground">
-            No medications added. If you don&apos;t take any, you can proceed to the next step.
+            No medications added. If you don&apos;t take any, you can proceed to
+            the next step.
           </p>
         ) : (
           <div className="space-y-2">

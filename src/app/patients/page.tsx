@@ -16,6 +16,8 @@ interface PatientRecord {
   }[];
 }
 
+import LoadingSpinner from "@/components/LoadingSpinner";
+
 export default function PatientsPage() {
   const { user, isLoading } = useAuth();
   const [patients, setPatients] = useState<PatientRecord[]>([]);
@@ -64,28 +66,24 @@ export default function PatientsPage() {
   };
 
   if (isLoading || loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Loading patient records...</p>
-      </div>
-    );
+    return <LoadingSpinner text="Loading patient records..." />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen w-full flex items-center justify-center pt-[120px] pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <div className="w-full max-w-7xl">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Patient Records</h1>
           <Link
             href="/intake"
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="h-[45px] px-6 flex items-center rounded-xl bg-[#ff4b4b] text-[13px] font-extrabold tracking-widest text-white uppercase shadow-[0_4px_0_#ea2b2b] transition hover:bg-[#ff5c5c] active:translate-y-[4px] active:shadow-none"
           >
             New Intake
           </Link>
         </div>
 
-        <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="bg-white shadow-sm rounded-xl overflow-hidden border border-black/10">
+          <table className="min-w-full divide-y divide-black/10">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -108,7 +106,7 @@ export default function PatientsPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-black/10">
               {patients.map((patient) => {
                 const analysis = patient.ai_analysis_results?.[0];
                 return (

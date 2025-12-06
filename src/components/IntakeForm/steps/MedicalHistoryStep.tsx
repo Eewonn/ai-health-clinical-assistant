@@ -58,7 +58,7 @@ export default function MedicalHistoryStep({ formData, updateFormData }: Props) 
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">Medical history</h2>
         <p className="text-lg font-medium text-neutral-500">

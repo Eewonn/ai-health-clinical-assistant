@@ -6,6 +6,8 @@ import Dashboard from "@/components/Dashboard";
 import { AIAnalysisResult } from "@/lib/types";
 import Link from "next/link";
 
+import LoadingSpinner from "@/components/LoadingSpinner";
+
 export default function AnalysisPage() {
   const params = useParams();
   const id = params?.id as string;
@@ -38,14 +40,7 @@ export default function AnalysisPage() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">Loading analysis...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner text="Loading analysis..." />;
   }
 
   if (error || !result) {
@@ -66,8 +61,8 @@ export default function AnalysisPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8 print:bg-white print:p-0">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen w-full flex items-center justify-center pt-[120px] pb-24 px-4 sm:px-6 lg:px-8 bg-gray-50 print:bg-white print:p-0 print:block">
+      <div className="w-full max-w-7xl">
         <div className="mb-6 print:hidden">
           <Link
             href="/patients"

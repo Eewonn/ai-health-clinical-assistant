@@ -6,6 +6,8 @@ import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+import LoadingSpinner from "@/components/LoadingSpinner";
+
 export default function SignupPage() {
   const { signInWithGoogle, user, isLoading } = useAuth();
   const router = useRouter();
@@ -17,11 +19,11 @@ export default function SignupPage() {
   }, [user, isLoading, router]);
 
   if (isLoading) {
-    return null;
+    return <LoadingSpinner text="Loading..." />;
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-6 bg-slate-50">
+    <div className="flex h-screen flex-col items-center justify-center gap-4 bg-slate-50">
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-3xl font-bold text-gray-900">
           Create your account
@@ -29,12 +31,12 @@ export default function SignupPage() {
         <p className="text-gray-500">Sign up to get started</p>
       </div>
 
-      <div className="flex w-full max-w-sm flex-col gap-4 rounded-xl p-6 ">
+      <div className="flex w-full max-w-sm flex-col gap-4 rounded-xl px-6 ">
         <div className="flex flex-col gap-2">
           <Button
             type="button"
             variant="outline"
-            className="w-full h-12 relative font-bold text-gray-700 bg-white hover:bg-gray-50 border-2 border-gray-200"
+            className="w-full h-14 relative font-bold text-gray-700 bg-white hover:bg-gray-50 border-2 border-gray-200"
             onClick={() => signInWithGoogle()}
           >
             <svg className="absolute left-4 h-5 w-5" viewBox="0 0 24 24">

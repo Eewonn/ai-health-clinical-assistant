@@ -10,7 +10,7 @@ export const IntakeSelect = forwardRef<HTMLSelectElement, SelectProps>(
                 <select
                     ref={ref}
                     className={cn(
-                        "h-14 w-full appearance-none rounded-2xl border-2 border-gray-100 bg-white pl-10 pr-6 text-base font-medium shadow-sm transition-all focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 placeholder:text-gray-400",
+                        "h-14 w-full appearance-none rounded-3xl border border-gray-100 bg-white px-5 text-lg font-medium font-sans shadow-sm transition-all focus-visible:border-gray-400 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 placeholder:text-gray-400",
                         className
                     )}
                     {...props}

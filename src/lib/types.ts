@@ -58,6 +58,7 @@ export interface PatientIntake {
   medical_history: MedicalHistory;
   medications: Medication[];
   primary_complaint: PrimaryComplaint;
+  full_body_image?: string;
   intake_date: string;
 }
 
@@ -74,6 +75,7 @@ export interface PatientIntakeInput {
   medical_history: MedicalHistory;
   medications: Medication[];
   primary_complaint: PrimaryComplaint;
+  full_body_image?: string;
 }
 
 // AI Analysis Results
@@ -91,14 +93,29 @@ export interface FlaggedIssues {
   warnings: string[];
 }
 
+// Meal Plan Structure
+export interface MealPlan {
+  category: "Low Carb" | "High Protein" | "Heart-Friendly" | "Balanced";
+  reasoning: string; // Changed from suggestion to reasoning
+}
+
+export interface GoRockyRecommendation {
+  product: "GoRocky" | "GoFuller" | "GoSlim";
+  reasoning: string;
+}
+
 export interface AIAnalysisResult {
   id: string;
   intake_id: string;
   risk_level: RiskLevel;
   safety_score: number; // 0-100
   treatment_plan: TreatmentPlan;
+  meal_plan: MealPlan;
+  gorocky_recommendation?: GoRockyRecommendation; // New conditional field
   flagged_issues: FlaggedIssues;
   summary: string;
+  visual_summary?: string;
+  research_summary?: string;
   citations: string[];
   status: "pending" | "approved" | "rejected";
   rejection_reason?: string;

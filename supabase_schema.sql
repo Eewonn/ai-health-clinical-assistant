@@ -4,7 +4,12 @@ create extension if not exists "uuid-ossp";
 -- Ensure ai_analysis_results has the new status columns
 alter table ai_analysis_results 
 add column if not exists status text default 'pending' check (status in ('pending', 'approved', 'rejected')),
-add column if not exists rejection_reason text;
+add column if not exists rejection_reason text,
+
+add column if not exists visual_summary text,
+add column if not exists research_summary text,
+add column if not exists meal_plan jsonb,
+add column if not exists gorocky_recommendation jsonb;
 
 -- Create Audit Logs table
 create table if not exists audit_logs (
@@ -41,5 +46,6 @@ create table if not exists patient_intake (
   medical_history jsonb,
   medications jsonb,
   primary_complaint text,
+  full_body_image text,
   intake_date timestamp with time zone default timezone('utc'::text, now()) not null
 );

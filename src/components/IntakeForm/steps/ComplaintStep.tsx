@@ -1,7 +1,7 @@
 "use client";
 
 import { PatientIntakeInput, PrimaryComplaint } from "@/lib/types";
-import { Badge } from "@/modules/ui/components/badge";
+
 
 interface Props {
   formData: Omit<PatientIntakeInput, "user_id">;
@@ -59,7 +59,7 @@ const complaints: {
 
 export default function ComplaintStep({ formData, updateFormData }: Props) {
   return (
-    <div className="space-y-16">
+    <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">
           Primary complaint
@@ -69,13 +69,13 @@ export default function ComplaintStep({ formData, updateFormData }: Props) {
         </p>
       </div>
 
-      <div className="grid gap-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {complaints.map((complaint) => (
           <label
             key={complaint.value}
-            className={`flex items-start gap-3 rounded-xl border p-4 transition-colors ${formData.primary_complaint === complaint.value
-              ? "border-primary/40 bg-primary/5 ring-1 ring-primary/20"
-              : "border-border hover:border-muted-foreground/30"
+            className={`flex cursor-pointer items-center justify-start rounded-xl border px-6 py-4 text-left text-lg font-bold transition-all ${formData.primary_complaint === complaint.value
+                ? "border-red-300 bg-red-50 text-red-600 shadow-sm"
+                : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
               }`}
           >
             <input
@@ -88,21 +88,9 @@ export default function ComplaintStep({ formData, updateFormData }: Props) {
                   primary_complaint: e.target.value as PrimaryComplaint,
                 })
               }
-              className="mt-1 h-4 w-4 accent-primary"
+              className="sr-only"
             />
-            <div>
-              <p className="font-medium">{complaint.label}</p>
-              <p className="text-sm text-muted-foreground">
-                {complaint.description}
-              </p>
-              {formData.primary_complaint === complaint.value && (
-                <div className="mt-2">
-                  <Badge variant="secondary" className="text-xs">
-                    Selected
-                  </Badge>
-                </div>
-              )}
-            </div>
+            {complaint.label}
           </label>
         ))}
       </div>

@@ -33,7 +33,7 @@ export default function MetricsStep({ formData, updateFormData }: Props) {
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">Health metrics</h2>
         <p className="text-lg font-medium text-neutral-500">
@@ -74,7 +74,7 @@ export default function MetricsStep({ formData, updateFormData }: Props) {
       </div>
 
       {/* BMI Display */}
-      <div className="rounded-xl border bg-muted/30 p-4">
+      <div className="rounded-xl border border-black/10 bg-muted/30 p-4">
         <p className="text-sm text-muted-foreground">Calculated BMI</p>
         <p className={`text-2xl font-semibold ${getBMIColor(bmi)}`}>
           {bmi > 0 ? bmi : "--"}
@@ -86,19 +86,7 @@ export default function MetricsStep({ formData, updateFormData }: Props) {
         </p>
       </div>
 
-      <div className="space-y-5">
-        <Label htmlFor="blood_pressure" className="ml-4">Blood pressure *</Label>
-        <IntakeInput
-          id="blood_pressure"
-          type="text"
-          value={formData.blood_pressure}
-          onChange={(e) => updateFormData({ blood_pressure: e.target.value })}
-          placeholder="e.g., 120/80"
-        />
-        <p className="mt-1 ml-4 text-xs text-muted-foreground">
-          Format: systolic/diastolic (e.g., 120/80)
-        </p>
-      </div>
+
     </div>
   );
 }
