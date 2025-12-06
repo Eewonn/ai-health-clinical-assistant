@@ -100,6 +100,17 @@ export interface AIAnalysisResult {
   flagged_issues: FlaggedIssues;
   summary: string;
   citations: string[];
+  status: "pending" | "approved" | "rejected";
+  rejection_reason?: string;
+  created_at: string;
+}
+
+export interface AuditLog {
+  id: string;
+  intake_id: string;
+  action: "approved" | "rejected" | "edited";
+  reviewer_name: string;
+  reviewer_notes?: string;
   created_at: string;
 }
 
