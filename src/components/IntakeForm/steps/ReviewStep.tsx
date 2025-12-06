@@ -2,6 +2,8 @@
 
 import { PatientIntakeInput } from "@/lib/types";
 import { calculateBMI } from "@/lib/validation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/modules/ui/components/card";
+import { Badge } from "@/modules/ui/components/badge";
 
 interface Props {
   formData: Omit<PatientIntakeInput, "user_id">;
@@ -14,113 +16,132 @@ export default function ReviewStep({ formData }: Props) {
       : 0;
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold mb-4">Review Your Information</h2>
-      <p className="text-gray-600 text-sm">
-        Please review your information before submitting.
-      </p>
-
-      {/* Personal Info */}
-      <div className="border-b pb-4">
-        <h3 className="font-medium text-gray-900 mb-2">Personal Information</h3>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <div>
-            <span className="text-gray-500">Name:</span> {formData.name || "-"}
-          </div>
-          <div>
-            <span className="text-gray-500">Age:</span> {formData.age || "-"}
-          </div>
-          <div>
-            <span className="text-gray-500">Sex:</span> {formData.sex || "-"}
-          </div>
-        </div>
-      </div>
-
-      {/* Metrics */}
-      <div className="border-b pb-4">
-        <h3 className="font-medium text-gray-900 mb-2">Health Metrics</h3>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <div>
-            <span className="text-gray-500">Height:</span> {formData.height_cm} cm
-          </div>
-          <div>
-            <span className="text-gray-500">Weight:</span> {formData.weight_kg} kg
-          </div>
-          <div>
-            <span className="text-gray-500">BMI:</span> {bmi}
-          </div>
-          <div>
-            <span className="text-gray-500">Blood Pressure:</span>{" "}
-            {formData.blood_pressure || "-"}
-          </div>
-        </div>
-      </div>
-
-      {/* Lifestyle */}
-      <div className="border-b pb-4">
-        <h3 className="font-medium text-gray-900 mb-2">Lifestyle</h3>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <div>
-            <span className="text-gray-500">Exercise:</span>{" "}
-            {formData.lifestyle.exercise || "-"}
-          </div>
-          <div>
-            <span className="text-gray-500">Sleep:</span>{" "}
-            {formData.lifestyle.sleep_hours} hours
-          </div>
-          <div>
-            <span className="text-gray-500">Smoking:</span>{" "}
-            {formData.lifestyle.smoking ? "Yes" : "No"}
-          </div>
-          <div>
-            <span className="text-gray-500">Alcohol:</span>{" "}
-            {formData.lifestyle.alcohol || "-"}
-          </div>
-        </div>
-      </div>
-
-      {/* Medical History */}
-      <div className="border-b pb-4">
-        <h3 className="font-medium text-gray-900 mb-2">Medical History</h3>
-        <div className="text-sm space-y-2">
-          <div>
-            <span className="text-gray-500">Conditions:</span>{" "}
-            {formData.medical_history.conditions.length > 0
-              ? formData.medical_history.conditions.join(", ")
-              : "None"}
-          </div>
-          <div>
-            <span className="text-gray-500">Allergies:</span>{" "}
-            {formData.medical_history.allergies.length > 0
-              ? formData.medical_history.allergies.join(", ")
-              : "None"}
-          </div>
-        </div>
-      </div>
-
-      {/* Medications */}
-      <div className="border-b pb-4">
-        <h3 className="font-medium text-gray-900 mb-2">Medications</h3>
-        {formData.medications.length > 0 ? (
-          <div className="text-sm space-y-1">
-            {formData.medications.map((med, index) => (
-              <div key={index}>
-                {med.name} - {med.dose}, {med.frequency}, {med.route}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-sm text-gray-500">No medications</p>
-        )}
-      </div>
-
-      {/* Primary Complaint */}
+    <div className="space-y-4">
       <div>
-        <h3 className="font-medium text-gray-900 mb-2">Primary Complaint</h3>
-        <p className="text-sm">
-          {formData.primary_complaint.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+        <h2 className="text-xl font-semibold tracking-tight">Review your information</h2>
+        <p className="text-sm text-muted-foreground">
+          Make sure everything looks correct before submitting.
         </p>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Personal information</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-3 text-sm">
+          <div className="text-muted-foreground">Name</div>
+          <div className="font-medium text-foreground">{formData.name || "-"}</div>
+          <div className="text-muted-foreground">Age</div>
+          <div className="font-medium text-foreground">{formData.age || "-"}</div>
+          <div className="text-muted-foreground">Sex</div>
+          <div className="font-medium text-foreground">{formData.sex || "-"}</div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Health metrics</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-3 text-sm">
+          <div className="text-muted-foreground">Height</div>
+          <div className="font-medium text-foreground">{formData.height_cm} cm</div>
+          <div className="text-muted-foreground">Weight</div>
+          <div className="font-medium text-foreground">{formData.weight_kg} kg</div>
+          <div className="text-muted-foreground">BMI</div>
+          <div className="font-medium text-foreground">{bmi || "--"}</div>
+          <div className="text-muted-foreground">Blood pressure</div>
+          <div className="font-medium text-foreground">
+            {formData.blood_pressure || "-"}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Lifestyle</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-3 text-sm">
+          <div className="text-muted-foreground">Exercise</div>
+          <div className="font-medium text-foreground">{formData.lifestyle.exercise || "-"}</div>
+          <div className="text-muted-foreground">Sleep</div>
+          <div className="font-medium text-foreground">{formData.lifestyle.sleep_hours} hours</div>
+          <div className="text-muted-foreground">Smoking</div>
+          <div className="font-medium text-foreground">
+            {formData.lifestyle.smoking ? "Yes" : "No"}
+          </div>
+          <div className="text-muted-foreground">Alcohol</div>
+          <div className="font-medium text-foreground">{formData.lifestyle.alcohol || "-"}</div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Medical history</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          <div className="flex gap-2">
+            <span className="text-muted-foreground">Conditions:</span>
+            {formData.medical_history.conditions.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {formData.medical_history.conditions.map((condition, i) => (
+                  <Badge key={i} variant="secondary">
+                    {condition}
+                  </Badge>
+                ))}
+              </div>
+            ) : (
+              <span className="text-muted-foreground">None</span>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <span className="text-muted-foreground">Allergies:</span>
+            {formData.medical_history.allergies.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {formData.medical_history.allergies.map((allergy, i) => (
+                  <Badge key={i} variant="destructive">
+                    {allergy}
+                  </Badge>
+                ))}
+              </div>
+            ) : (
+              <span className="text-muted-foreground">None</span>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Medications</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-1 text-sm">
+          {formData.medications.length > 0 ? (
+            formData.medications.map((med, index) => (
+              <div key={index} className="rounded-md border bg-muted/40 px-3 py-2">
+                <span className="font-semibold text-foreground">{med.name}</span>{" "}
+                <span className="text-muted-foreground">
+                  {med.dose} • {med.frequency} • {med.route}
+                </span>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted-foreground">No medications</p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Primary complaint</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm font-medium text-foreground">
+            {formData.primary_complaint.replace(/_/g, " ").replace(/\b\w/g, (l) =>
+              l.toUpperCase()
+            )}
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

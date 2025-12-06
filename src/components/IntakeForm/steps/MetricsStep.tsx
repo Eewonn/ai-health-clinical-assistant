@@ -2,6 +2,8 @@
 
 import { PatientIntakeInput } from "@/lib/types";
 import { calculateBMI } from "@/lib/validation";
+import { IntakeInput } from "../IntakeInput";
+import { Label } from "@/modules/ui/components/label";
 
 interface Props {
   formData: Omit<PatientIntakeInput, "user_id">;
@@ -31,38 +33,39 @@ export default function MetricsStep({ formData, updateFormData }: Props) {
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold mb-4">Health Metrics</h2>
+    <div className="space-y-16">
+      <div>
+        <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">Health metrics</h2>
+        <p className="text-lg font-medium text-neutral-500">
+          Basic measurements to help calculate risk and dosing.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Height (cm) *
-          </label>
-          <input
+      <div className="grid grid-cols-2 gap-8">
+        <div className="space-y-5">
+          <Label htmlFor="height" className="ml-4">Height (cm) *</Label>
+          <IntakeInput
+            id="height"
             type="number"
             value={formData.height_cm || ""}
             onChange={(e) =>
               updateFormData({ height_cm: parseFloat(e.target.value) || 0 })
             }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="e.g., 170"
             min="30"
             max="300"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Weight (kg) *
-          </label>
-          <input
+        <div className="space-y-5">
+          <Label htmlFor="weight" className="ml-4">Weight (kg) *</Label>
+          <IntakeInput
+            id="weight"
             type="number"
             value={formData.weight_kg || ""}
             onChange={(e) =>
               updateFormData({ weight_kg: parseFloat(e.target.value) || 0 })
             }
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="e.g., 70"
             min="1"
             max="700"
@@ -71,28 +74,30 @@ export default function MetricsStep({ formData, updateFormData }: Props) {
       </div>
 
       {/* BMI Display */}
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <p className="text-sm text-gray-600">Calculated BMI</p>
-        <p className={`text-2xl font-bold ${getBMIColor(bmi)}`}>
+      <div className="rounded-xl border bg-muted/30 p-4">
+        <p className="text-sm text-muted-foreground">Calculated BMI</p>
+        <p className={`text-2xl font-semibold ${getBMIColor(bmi)}`}>
           {bmi > 0 ? bmi : "--"}
           {bmi > 0 && (
-            <span className="text-sm font-normal ml-2">({getBMICategory(bmi)})</span>
+            <span className="ml-2 text-sm font-normal text-muted-foreground">
+              ({getBMICategory(bmi)})
+            </span>
           )}
         </p>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Blood Pressure *
-        </label>
-        <input
+      <div className="space-y-5">
+        <Label htmlFor="blood_pressure" className="ml-4">Blood pressure *</Label>
+        <IntakeInput
+          id="blood_pressure"
           type="text"
           value={formData.blood_pressure}
           onChange={(e) => updateFormData({ blood_pressure: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="e.g., 120/80"
         />
-        <p className="text-xs text-gray-500 mt-1">Format: systolic/diastolic (e.g., 120/80)</p>
+        <p className="mt-1 ml-4 text-xs text-muted-foreground">
+          Format: systolic/diastolic (e.g., 120/80)
+        </p>
       </div>
     </div>
   );

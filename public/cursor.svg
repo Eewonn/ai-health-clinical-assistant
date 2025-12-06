@@ -1,0 +1,29 @@
+<svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1" flood-color="black" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <!-- 
+    Scaled up coordinates for 64x64 canvas.
+    Thick strokes with stroke-linejoin="round" create the rounded corner effect.
+    Outer Stroke: Black, Width 16 (Radius ~8px visually + path rounding)
+    Inner Stroke: White, Width 8
+  -->
+  <path 
+    d="M12 12 L28 52 L36 36 L52 28 L12 12Z" 
+    fill="#ea2b2b" 
+    stroke="black" 
+    stroke-width="10" 
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+  <path 
+    d="M12 12 L28 52 L36 36 L52 28 L12 12Z" 
+    fill="#ea2b2b" 
+    stroke="white" 
+    stroke-width="4" 
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+</svg>

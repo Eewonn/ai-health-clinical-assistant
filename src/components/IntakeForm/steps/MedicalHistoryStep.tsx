@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { PatientIntakeInput } from "@/lib/types";
+import { IntakeInput } from "../IntakeInput";
+import { Button } from "@/modules/ui/components/button";
+import { Badge } from "@/modules/ui/components/badge";
 
 interface Props {
   formData: Omit<PatientIntakeInput, "user_id">;
@@ -55,93 +58,86 @@ export default function MedicalHistoryStep({ formData, updateFormData }: Props) 
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold mb-4">Medical History</h2>
+    <div className="space-y-16">
+      <div>
+        <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">Medical history</h2>
+        <p className="text-lg font-medium text-neutral-500">
+          Add conditions and allergies to surface potential interactions.
+        </p>
+      </div>
 
       {/* Conditions */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Medical Conditions
-        </label>
-        <div className="flex gap-2 mb-2">
-          <input
+        <p className="mb-5 text-sm font-medium text-foreground">Medical conditions</p>
+        <div className="mb-3 flex gap-2">
+          <IntakeInput
             type="text"
             value={newCondition}
             onChange={(e) => setNewCondition(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addCondition())}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addCondition())}
             placeholder="e.g., Diabetes, Hypertension"
           />
-          <button
-            type="button"
-            onClick={addCondition}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
+          <Button type="button" onClick={addCondition} variant="secondary">
             Add
-          </button>
+          </Button>
         </div>
         <div className="flex flex-wrap gap-2">
           {formData.medical_history.conditions.map((condition, index) => (
-            <span
+            <Badge
               key={index}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+              variant="secondary"
+              className="inline-flex items-center gap-2"
             >
               {condition}
               <button
                 type="button"
                 onClick={() => removeCondition(index)}
-                className="text-blue-600 hover:text-blue-800"
+                className="text-xs text-muted-foreground hover:text-foreground"
               >
                 ×
               </button>
-            </span>
+            </Badge>
           ))}
           {formData.medical_history.conditions.length === 0 && (
-            <span className="text-gray-400 text-sm">No conditions added</span>
+            <span className="text-sm text-muted-foreground">No conditions added</span>
           )}
         </div>
       </div>
 
       {/* Allergies */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Allergies
-        </label>
-        <div className="flex gap-2 mb-2">
-          <input
+        <p className="mb-5 text-sm font-medium text-foreground">Allergies</p>
+        <div className="mb-3 flex gap-2">
+          <IntakeInput
             type="text"
             value={newAllergy}
             onChange={(e) => setNewAllergy(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addAllergy())}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addAllergy())}
             placeholder="e.g., Penicillin, Peanuts"
           />
-          <button
-            type="button"
-            onClick={addAllergy}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
+          <Button type="button" onClick={addAllergy} variant="secondary">
             Add
-          </button>
+          </Button>
         </div>
         <div className="flex flex-wrap gap-2">
           {formData.medical_history.allergies.map((allergy, index) => (
-            <span
+            <Badge
               key={index}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm"
+              variant="destructive"
+              className="inline-flex items-center gap-2"
             >
               {allergy}
               <button
                 type="button"
                 onClick={() => removeAllergy(index)}
-                className="text-red-600 hover:text-red-800"
+                className="text-xs text-destructive/80 hover:text-destructive"
               >
                 ×
               </button>
-            </span>
+            </Badge>
           ))}
           {formData.medical_history.allergies.length === 0 && (
-            <span className="text-gray-400 text-sm">No allergies added</span>
+            <span className="text-sm text-muted-foreground">No allergies added</span>
           )}
         </div>
       </div>

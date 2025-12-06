@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PatientIntakeInput, PatientIntake } from "@/lib/types";
+import { validatePatientIntake } from "@/lib/validation";
 import { useAuth } from "@/lib/auth-context";
 import PersonalInfoStep from "./steps/PersonalInfoStep";
 import MetricsStep from "./steps/MetricsStep";
@@ -10,6 +11,8 @@ import MedicalHistoryStep from "./steps/MedicalHistoryStep";
 import MedicationsStep from "./steps/MedicationsStep";
 import ComplaintStep from "./steps/ComplaintStep";
 import ReviewStep from "./steps/ReviewStep";
+import { Button } from "@/modules/ui/components/button";
+import { Progress } from "@/modules/ui/components/progress";
 
 interface IntakeFormProps {
   onFormSubmit: (intakeData: PatientIntake) => void;
@@ -84,6 +87,16 @@ export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
         user_id: user.id,
       };
 
+      // Client-side validation
+      const validationErrors = validatePatientIntake(payload);
+      if (validationErrors.length > 0) {
+        setSubmitError(
+          `Validation failed: ${validationErrors.map((e) => e.message).join(", ")}`
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
       const response = await fetch("/api/intake", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -108,17 +121,38 @@ export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return <PersonalInfoStep formData={formData} updateFormData={updateFormData} />;
+        return (
+          <PersonalInfoStep
+            formData={formData}
+            updateFormData={updateFormData}
+          />
+        );
       case 1:
-        return <MetricsStep formData={formData} updateFormData={updateFormData} />;
+        return (
+          <MetricsStep formData={formData} updateFormData={updateFormData} />
+        );
       case 2:
-        return <LifestyleStep formData={formData} updateFormData={updateFormData} />;
+        return (
+          <LifestyleStep formData={formData} updateFormData={updateFormData} />
+        );
       case 3:
-        return <MedicalHistoryStep formData={formData} updateFormData={updateFormData} />;
+        return (
+          <MedicalHistoryStep
+            formData={formData}
+            updateFormData={updateFormData}
+          />
+        );
       case 4:
-        return <MedicationsStep formData={formData} updateFormData={updateFormData} />;
+        return (
+          <MedicationsStep
+            formData={formData}
+            updateFormData={updateFormData}
+          />
+        );
       case 5:
-        return <ComplaintStep formData={formData} updateFormData={updateFormData} />;
+        return (
+          <ComplaintStep formData={formData} updateFormData={updateFormData} />
+        );
       case 6:
         return <ReviewStep formData={formData} />;
       default:
@@ -127,71 +161,60 @@ export default function IntakeForm({ onFormSubmit }: IntakeFormProps) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6 text-center">Patient Intake Form</h1>
-
-      {/* Progress Indicator */}
-      <div className="mb-8">
-        <div className="flex justify-between mb-2">
-          {STEPS.map((step, index) => (
-            <div
-              key={step}
-              className={`flex-1 text-center text-xs ${
-                index <= currentStep ? "text-blue-600 font-medium" : "text-gray-400"
-              }`}
-            >
-              {index + 1}
-            </div>
-          ))}
-        </div>
-        <div className="h-2 bg-gray-200 rounded-full">
-          <div
-            className="h-2 bg-blue-600 rounded-full transition-all duration-300"
-            style={{ width: `${((currentStep + 1) / STEPS.length) * 100}%` }}
-          />
-        </div>
-        <p className="text-center mt-2 text-sm text-gray-600">
-          Step {currentStep + 1}: {STEPS[currentStep]}
+    <div className="space-y-10 rounded-xl p-10 max-w-3xl mx-auto">
+      <div className="space-y-4 text-center mb-10">
+        <h1 className="text-[32px] font-extrabold tracking-tight text-neutral-700">
+          Patient Intake
+        </h1>
+        <p className="text-lg font-medium text-neutral-500">
+          Complete the steps below so the AI assistant can generate a clinical
+          summary and treatment plan.
         </p>
       </div>
 
-      {/* Form Content */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        {renderStep()}
+      {/* Progress Indicator */}
+      <div className="space-y-2 mt-20">
+        <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+          <span>Step {currentStep + 1}</span>
+          <span>{STEPS[currentStep]}</span>
+          <span>
+            {currentStep + 1}/{STEPS.length}
+          </span>
+        </div>
+        <Progress value={((currentStep + 1) / STEPS.length) * 100} />
       </div>
+
+      {/* Form Content */}
+      <div className="rounded-xl bg-background p-6">{renderStep()}</div>
 
       {/* Submit Result Message */}
       {submitError && (
-        <div className="mb-4 p-4 rounded-lg bg-red-100 text-red-800">
+        <div className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
           {submitError}
         </div>
       )}
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between">
-        <button
+      <div className="flex items-center mt-20 justify-between pt-2">
+        <Button
+          className="h-[45px] w-[110px] rounded-xl border-2 border-[#e5e5e5] bg-white text-[13px] font-extrabold tracking-wider text-[#3E9001] shadow-[0_4px_0_#e5e5e5] transition hover:bg-slate-50 active:shadow-none active:translate-y-[4px] uppercase"
           onClick={prevStep}
           disabled={currentStep === 0}
-          className="px-6 py-2 rounded-lg bg-gray-200 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors"
         >
           Previous
-        </button>
+        </Button>
 
         {currentStep < STEPS.length - 1 ? (
-          <button
+          <Button
+            className="h-[45px] w-[110px] rounded-xl bg-[#ff4b4b] text-[13px] font-extrabold tracking-widest text-white shadow-[0_4px_0_#ea2b2b] transition active:shadow-none active:translate-y-[4px] uppercase hover:bg-[#ff5c5c]"
             onClick={nextStep}
-            className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
           >
             Next
-          </button>
+          </Button>
         ) : (
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="px-6 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 transition-colors"
-          >
+          <Button onClick={handleSubmit} disabled={isSubmitting}>
             {isSubmitting ? "Submitting..." : "Submit & Analyze"}
-          </button>
+          </Button>
         )}
       </div>
     </div>

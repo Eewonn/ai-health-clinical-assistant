@@ -5,12 +5,17 @@ import IntakeForm from "@/components/IntakeForm";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { AIAnalysisResult, PatientIntake } from "@/lib/types";
+import { Button } from "@/modules/ui/components/button";
 
 export default function IntakePage() {
-  const { user, isLoading, signOut } = useAuth();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
-  const [analysisState, setAnalysisState] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [analysisResult, setAnalysisResult] = useState<AIAnalysisResult | null>(null);
+  const [analysisState, setAnalysisState] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [analysisResult, setAnalysisResult] = useState<AIAnalysisResult | null>(
+    null,
+  );
   const [analysisError, setAnalysisError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -47,9 +52,9 @@ export default function IntakePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p>Loading...</p>
-      </div>
+      <main className="flex min-h-screen items-center justify-center bg-background">
+        <p className="text-sm text-muted-foreground">Loading...</p>
+      </main>
     );
   }
 
@@ -58,45 +63,31 @@ export default function IntakePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 py-8">
-      <div className="max-w-2xl mx-auto px-6 mb-4 flex justify-between items-center">
-        <p className="text-sm text-gray-600">
-          Signed in as <span className="font-medium">{user.email}</span>
-        </p>
-        <button
-          onClick={() => {
-            signOut();
-            router.push("/signin");
-          }}
-          className="text-sm text-red-600 hover:underline"
-        >
-          Sign Out
-        </button>
+    <div className="min-h-screen w-full flex items-center justify-center pt-[70px] pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[700px]">
+        {analysisState === "idle" && (
+          <IntakeForm onFormSubmit={handleFormSubmit} />
+        )}
+
+        {analysisState === "loading" && (
+          <div className="space-y-2 text-center py-10">
+            <h2 className="text-xl font-semibold">Analyzing data...</h2>
+            <p className="text-sm text-muted-foreground">
+              Please wait while the AI assistant reviews the information.
+            </p>
+          </div>
+        )}
+
+        {analysisState === "error" && (
+          <div className="space-y-4 text-center py-10">
+            <h2 className="text-xl font-semibold text-destructive">
+              Analysis failed
+            </h2>
+            <p className="text-sm text-muted-foreground">{analysisError}</p>
+            <Button onClick={() => setAnalysisState("idle")}>Try again</Button>
+          </div>
+        )}
       </div>
-
-      {analysisState === "idle" && <IntakeForm onFormSubmit={handleFormSubmit} />}
-
-      {analysisState === "loading" && (
-        <div className="max-w-2xl mx-auto p-6 text-center">
-          <h2 className="text-xl font-semibold">Analyzing Data...</h2>
-          <p className="text-gray-600">
-            Please wait while our AI assistant reviews the information.
-          </p>
-        </div>
-      )}
-
-      {analysisState === "error" && (
-        <div className="max-w-2xl mx-auto p-6 text-center">
-          <h2 className="text-xl font-semibold text-red-600">Analysis Failed</h2>
-          <p className="text-gray-600 mb-4">{analysisError}</p>
-          <button
-            onClick={() => setAnalysisState("idle")}
-            className="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Try Again
-          </button>
-        </div>
-      )}
-    </main>
+    </div>
   );
 }

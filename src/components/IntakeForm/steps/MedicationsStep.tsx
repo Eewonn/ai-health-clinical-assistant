@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { PatientIntakeInput, Medication } from "@/lib/types";
+import { IntakeInput } from "../IntakeInput";
+import { IntakeSelect } from "../IntakeSelect";
+import { Button } from "@/modules/ui/components/button";
+import { Badge } from "@/modules/ui/components/badge";
 
 interface Props {
   formData: Omit<PatientIntakeInput, "user_id">;
@@ -34,32 +38,34 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold mb-4">Current Medications</h2>
+    <div className="space-y-16">
+      <div>
+        <h2 className="text-2xl font-extrabold tracking-tight text-neutral-700">Medications</h2>
+        <p className="text-lg font-medium text-neutral-500">
+          List any current medications to help us identify contraindications.
+        </p>
+      </div>
 
       {/* Add new medication form */}
-      <div className="bg-gray-50 p-4 rounded-lg space-y-3">
-        <p className="text-sm font-medium text-gray-700">Add Medication</p>
-        
-        <div className="grid grid-cols-2 gap-3">
-          <input
+      <div className="space-y-5 rounded-xl border bg-muted/30 p-4">
+        <p className="text-sm font-semibold text-foreground">Add medication</p>
+
+        <div className="grid grid-cols-2 gap-5">
+          <IntakeInput
             type="text"
             value={newMed.name}
             onChange={(e) => setNewMed({ ...newMed, name: e.target.value })}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Medication name"
           />
-          <input
+          <IntakeInput
             type="text"
             value={newMed.dose}
             onChange={(e) => setNewMed({ ...newMed, dose: e.target.value })}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Dose (e.g., 10mg)"
           />
-          <select
+          <IntakeSelect
             value={newMed.frequency}
             onChange={(e) => setNewMed({ ...newMed, frequency: e.target.value })}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Select frequency</option>
             <option value="once daily">Once daily</option>
@@ -68,11 +74,10 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
             <option value="four times daily">Four times daily</option>
             <option value="as needed">As needed</option>
             <option value="weekly">Weekly</option>
-          </select>
-          <select
+          </IntakeSelect>
+          <IntakeSelect
             value={newMed.route}
             onChange={(e) => setNewMed({ ...newMed, route: e.target.value })}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Select route</option>
             <option value="oral">Oral</option>
@@ -81,49 +86,50 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
             <option value="inhalation">Inhalation</option>
             <option value="sublingual">Sublingual</option>
             <option value="rectal">Rectal</option>
-          </select>
+          </IntakeSelect>
         </div>
-        
-        <button
+
+        <Button
           type="button"
           onClick={addMedication}
           disabled={!newMed.name || !newMed.dose || !newMed.frequency || !newMed.route}
-          className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full"
         >
-          Add Medication
-        </button>
+          Add medication
+        </Button>
       </div>
 
       {/* Medications list */}
       <div>
-        <p className="text-sm font-medium text-gray-700 mb-2">
-          Current Medications ({formData.medications.length})
+        <p className="mb-5 text-sm font-medium text-foreground">
+          Current medications ({formData.medications.length})
         </p>
-        
+
         {formData.medications.length === 0 ? (
-          <p className="text-gray-400 text-sm text-center py-4">
-            No medications added. If you don&apos;t take any medications, you can proceed to the next step.
+          <p className="py-4 text-center text-sm text-muted-foreground">
+            No medications added. If you don&apos;t take any, you can proceed to the next step.
           </p>
         ) : (
           <div className="space-y-2">
             {formData.medications.map((med, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg"
+                className="flex items-center justify-between rounded-lg border bg-card p-3"
               >
                 <div>
                   <p className="font-medium">{med.name}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     {med.dose} • {med.frequency} • {med.route}
                   </p>
                 </div>
-                <button
+                <Button
                   type="button"
                   onClick={() => removeMedication(index)}
-                  className="text-red-600 hover:text-red-800 p-1"
+                  variant="ghost"
+                  className="text-destructive hover:text-destructive"
                 >
                   Remove
-                </button>
+                </Button>
               </div>
             ))}
           </div>

@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function SignInPage() {
+export default function SignupPage() {
   const { signInWithGoogle, user, isLoading } = useAuth();
   const router = useRouter();
 
@@ -17,16 +17,16 @@ export default function SignInPage() {
   }, [user, isLoading, router]);
 
   if (isLoading) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return (
     <div className="flex h-screen flex-col items-center justify-center gap-6 bg-slate-50">
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-3xl font-bold text-gray-900">
-          Sign in to your account
+          Create your account
         </h1>
-        <p className="text-gray-500">Welcome back! Please sign in to continue</p>
+        <p className="text-gray-500">Sign up to get started</p>
       </div>
 
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-xl p-6 ">
@@ -55,17 +55,17 @@ export default function SignInPage() {
                 fill="#EA4335"
               />
             </svg>
-            Sign in with Google
+            Sign up with Google
           </Button>
         </div>
 
         <div className="text-center text-sm text-gray-500">
-          Don't have an account?{" "}
+          Have an account?{" "}
           <Link
-            href="/signup"
+            href="/signin"
             className="font-bold text-blue-500 hover:underline"
           >
-            Sign up
+            Log in
           </Link>
         </div>
       </div>

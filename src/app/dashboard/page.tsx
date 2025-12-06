@@ -5,9 +5,10 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import Dashboard from "@/components/Dashboard";
 import { AIAnalysisResult } from "@/lib/types";
+import { Button } from "@/modules/ui/components/button";
 
 export default function DashboardPage() {
-  const { user, isLoading, signOut } = useAuth();
+  const { user, isLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const analysisId = searchParams.get("id");
@@ -54,9 +55,9 @@ export default function DashboardPage() {
 
   if (isLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p>Loading...</p>
-      </div>
+      <main className="flex min-h-screen items-center justify-center bg-background">
+        <p className="text-sm text-muted-foreground">Loading...</p>
+      </main>
     );
   }
 
@@ -65,50 +66,38 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center">
-            <h1 className="text-xl font-bold text-blue-600">AI Health Assistant</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-600">
-              {user.email}
-            </span>
-            <button
-              onClick={() => {
-                signOut();
-                router.push("/signin");
-              }}
-              className="text-sm text-red-600 hover:text-red-800"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {error ? (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
-            {error}
-          </div>
-        ) : !analysisResult ? (
-          <div className="text-center py-12">
-            <h2 className="text-xl font-semibold text-gray-700">No analysis selected</h2>
-            <p className="text-gray-500 mt-2">Please complete a new intake to view results.</p>
-            <button
-              onClick={() => router.push("/intake")}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Start New Intake
-            </button>
-          </div>
-        ) : (
-          <Dashboard result={analysisResult} />
-        )}
+    <div className="container mx-auto py-6 px-4 sm:px-6 lg:px-8 max-w-6xl">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">
+          AI Health Assistant
+        </h1>
+        <p className="text-muted-foreground">
+          Clinical decision support based on your intake.
+        </p>
       </div>
-    </main>
+
+      {error ? (
+        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          {error}
+        </div>
+      ) : !analysisResult ? (
+        <div className="rounded-xl border bg-card px-6 py-10 text-center shadow-sm">
+          <h2 className="text-xl font-semibold text-foreground">
+            No analysis selected
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Complete a new intake to generate an AI-assisted clinical summary.
+          </p>
+          <Button
+            className="mt-5"
+            onClick={() => router.push("/intake")}
+          >
+            Start new intake
+          </Button>
+        </div>
+      ) : (
+        <Dashboard result={analysisResult} />
+      )}
+    </div>
   );
 }
