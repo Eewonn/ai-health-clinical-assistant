@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
+import { supabase } from "@/lib/supabase";
 
 interface PatientRecord {
   id: string;
@@ -31,7 +32,14 @@ export default function PatientsPage() {
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch("/api/patients");
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      const res = await fetch("/api/patients", {
+        headers: {
+          Authorization: `Bearer ${session?.access_token || ""}`,
+        },
+      });
+      
       const data = await res.json();
       if (data.success) {
         setPatients(data.data);

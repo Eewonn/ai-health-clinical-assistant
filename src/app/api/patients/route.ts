@@ -1,8 +1,27 @@
 import { supabase } from "@/lib/supabase";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Get the authorization header
+    const authHeader = request.headers.get("authorization");
+    if (!authHeader) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const { data, error } = await supabase
       .from("patient_intake")
       .select(`
@@ -14,6 +33,7 @@ export async function GET() {
           created_at
         )
       `)
+      .eq("user_id", user.id)
       .order("intake_date", { ascending: false });
 
     if (error) throw error;
