@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import Dashboard from "@/components/Dashboard";
 import { AIAnalysisResult } from "@/lib/types";
 import { Button } from "@/modules/ui/components/button";
 
-export default function DashboardPage() {
+function DashboardContent() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -98,33 +98,26 @@ export default function DashboardPage() {
               src="/header-icon.png"
               alt="Icon"
               className="w-10 h-10 -rotate-12"
-            />
-            <h1 className="text-3xl font-bold tracking-tight">
-              AI Health Assistant
-            </h1>
+              />
+            <h1 className="text-3xl font-bold text-gray-900">Clinical Dashboard</h1>
           </div>
-          <p className="text-muted-foreground">
-            Clinical decision support based on your intake.
+          <p className="text-gray-500">
+            Review AI analysis and finalize treatment plan.
           </p>
         </div>
 
         {error ? (
-          <div className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          <div className="p-4 bg-red-50 text-red-600 rounded-md">
             {error}
           </div>
         ) : !analysisResult ? (
-          <div className="rounded-xl border bg-card px-6 py-10 text-center shadow-sm">
-            <h2 className="text-xl font-semibold text-foreground">
-              No analysis selected
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Complete a new intake to generate an AI-assisted clinical summary.
-            </p>
-            <Button
-              className="mt-5"
+          <div className="text-center py-12">
+            <p className="text-gray-500">No analysis selected.</p>
+            <Button 
+              className="mt-4"
               onClick={() => router.push("/intake")}
             >
-              Start new intake
+              Start New Intake
             </Button>
           </div>
         ) : (
@@ -132,5 +125,17 @@ export default function DashboardPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={
+      <main className="flex min-h-screen items-center justify-center bg-background">
+        <p className="text-sm text-muted-foreground">Loading...</p>
+      </main>
+    }>
+      <DashboardContent />
+    </Suspense>
   );
 }
