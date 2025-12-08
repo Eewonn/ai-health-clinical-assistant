@@ -255,19 +255,58 @@ export default function Dashboard({ result, patientImage }: Props) {
           <Card className="rounded-xl border border-black/10 bg-white shadow-[0_4px_0_rgba(0,0,0,0.2)]">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Treatment Plan</CardTitle>
-              {isEditing ? (
-                <Badge variant="secondary">Editing</Badge>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsEditing(true)}
-                  disabled={status !== "pending"}
-                  className="border-gray-200"
-                >
-                  Edit Plan
-                </Button>
-              )}
+              <div className="flex items-center gap-2">
+                {isEditing ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsEditing(false)}
+                      disabled={isSaving}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleSave}
+                      disabled={isSaving}
+                    >
+                      Save Changes
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsEditing(true)}
+                      disabled={status !== "pending"}
+                      className="border-gray-200"
+                    >
+                      Edit Plan
+                    </Button>
+                    {status === "pending" && (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowRejectModal(true)}
+                          className="border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800"
+                        >
+                          Reject
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => setShowApproveModal(true)}
+                          className="bg-green-600 hover:bg-green-700 text-white"
+                        >
+                          Approve
+                        </Button>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Medications */}
