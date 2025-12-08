@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/modules/ui/components/button";
 import { useAuth } from "@/lib/auth-context";
 import { cn } from "@/lib/utils";
@@ -10,6 +11,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, signOut, isLoading } = useAuth();
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const routes = [
     {
@@ -48,7 +50,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Navigation - Centered/Flexible */}
-        <div className="hidden md:flex flex-1 justify-center">
+        <div className="hidden md:flex flex-1 justify-start ml-10">
           <nav className="flex items-center gap-4 text-sm font-bold uppercase tracking-wide text-gray-500 lg:gap-8">
             {routes
               .filter((route) => route.show)
@@ -79,13 +81,22 @@ export function SiteHeader() {
                 {user.email}
               </span>
               <button
+                disabled={isSigningOut}
                 onClick={async () => {
-                  await signOut();
-                  router.push("/signin");
+                  setIsSigningOut(true);
+                  try {
+                    await signOut();
+                    router.push("/signin");
+                    router.refresh();
+                  } catch (error) {
+                    console.error("Sign out failed", error);
+                  } finally {
+                    setIsSigningOut(false);
+                  }
                 }}
-                className="h-[45px] w-[110px] rounded-xl border-2 border-[#e5e5e5] bg-white text-[13px] font-extrabold tracking-wider text-[#3E9001] shadow-[0_4px_0_#e5e5e5] transition hover:bg-slate-50 active:shadow-none active:translate-y-[4px] uppercase"
+                className="h-[45px] w-[110px] rounded-xl border-2 border-[#e5e5e5] bg-white text-[13px] font-extrabold tracking-wider text-[#3E9001] shadow-[0_4px_0_#e5e5e5] transition hover:bg-slate-50 active:shadow-none active:translate-y-[4px] uppercase disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Sign Out
+                {isSigningOut ? "..." : "Sign Out"}
               </button>
             </div>
           ) : (

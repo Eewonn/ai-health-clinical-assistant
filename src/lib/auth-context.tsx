@@ -20,6 +20,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Safety timeout: Force loading to false if auth takes too long (e.g. network hang)
+    const timeoutId = setTimeout(() => {
+      setIsLoading((prev) => {
+        if (prev) console.warn("Auth check timed out, forcing load completion");
+        return false;
+      });
+    }, 5000);
+
     // 1. Check active session
     const checkSession = async () => {
       try {
@@ -48,6 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return () => {
+      clearTimeout(timeoutId);
       subscription.unsubscribe();
     };
   }, []);
@@ -105,8 +114,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    } finally {
+      setUser(null);
+    }
   };
 
   return (
