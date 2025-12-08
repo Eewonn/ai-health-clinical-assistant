@@ -14,6 +14,9 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: "Sola",
   description: "AI-powered health clinical assistant",
+  icons: {
+    icon: "/tomato.png",
+  },
 };
 
 export default function RootLayout({
