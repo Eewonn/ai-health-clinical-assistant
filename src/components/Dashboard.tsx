@@ -205,8 +205,8 @@ export default function Dashboard({ result, patientImage }: Props) {
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-12">
-        {/* Left Column: Clinical Solution (7 cols) */}
-        <div className="lg:col-span-7 space-y-5">
+        {/* Left Column: Clinical Solution (8 cols) */}
+        <div className="lg:col-span-8 space-y-5">
 
           {/* Clinical Summary */}
           <Card className="rounded-xl border border-black/10 bg-white shadow-[0_4px_0_rgba(0,0,0,0.2)]">
@@ -259,10 +259,18 @@ export default function Dashboard({ result, patientImage }: Props) {
                 {isEditing ? (
                   <>
                     <Button
+<<<<<<< HEAD
                       variant="outline"
                       size="sm"
                       onClick={() => setIsEditing(false)}
                       disabled={isSaving}
+=======
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsEditing(false)}
+                      disabled={isSaving}
+                      className="h-10 rounded-xl border-2 border-transparent text-gray-500 font-extrabold uppercase tracking-wide hover:bg-gray-100"
+>>>>>>> 99d4ba6 (feat(polishes): i think this is probably how much this project can go)
                     >
                       Cancel
                     </Button>
@@ -270,6 +278,10 @@ export default function Dashboard({ result, patientImage }: Props) {
                       size="sm"
                       onClick={handleSave}
                       disabled={isSaving}
+<<<<<<< HEAD
+=======
+                      className="h-10 px-6 rounded-xl bg-[#58cc02] border-2 border-[#58cc02] text-white shadow-[0_4px_0_#46a302] font-extrabold uppercase tracking-wide transition hover:bg-[#61e002] active:translate-y-[2px] active:shadow-none"
+>>>>>>> 99d4ba6 (feat(polishes): i think this is probably how much this project can go)
                     >
                       Save Changes
                     </Button>
@@ -281,7 +293,11 @@ export default function Dashboard({ result, patientImage }: Props) {
                       size="sm"
                       onClick={() => setIsEditing(true)}
                       disabled={status !== "pending"}
+<<<<<<< HEAD
                       className="border-gray-200"
+=======
+                      className="h-10 px-4 rounded-xl border-2 border-[#e5e5e5] bg-white text-gray-700 shadow-[0_4px_0_#e5e5e5] font-extrabold uppercase tracking-wide transition hover:bg-slate-50 active:translate-y-[2px] active:shadow-none"
+>>>>>>> 99d4ba6 (feat(polishes): i think this is probably how much this project can go)
                     >
                       Edit Plan
                     </Button>
@@ -291,14 +307,22 @@ export default function Dashboard({ result, patientImage }: Props) {
                           variant="outline"
                           size="sm"
                           onClick={() => setShowRejectModal(true)}
+<<<<<<< HEAD
                           className="border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800"
+=======
+                          className="h-10 px-4 rounded-xl border-2 border-[#e5e5e5] bg-white text-[#ff4b4b] shadow-[0_4px_0_#e5e5e5] font-extrabold uppercase tracking-wide transition hover:bg-slate-50 active:translate-y-[2px] active:shadow-none hover:text-[#ff4b4b]"
+>>>>>>> 99d4ba6 (feat(polishes): i think this is probably how much this project can go)
                         >
                           Reject
                         </Button>
                         <Button
                           size="sm"
                           onClick={() => setShowApproveModal(true)}
+<<<<<<< HEAD
                           className="bg-green-600 hover:bg-green-700 text-white"
+=======
+                          className="h-10 px-6 rounded-xl bg-[#58cc02] border-2 border-[#58cc02] text-white shadow-[0_4px_0_#46a302] font-extrabold uppercase tracking-wide transition hover:bg-[#61e002] active:translate-y-[2px] active:shadow-none"
+>>>>>>> 99d4ba6 (feat(polishes): i think this is probably how much this project can go)
                         >
                           Approve
                         </Button>
@@ -319,7 +343,7 @@ export default function Dashboard({ result, patientImage }: Props) {
                 </h3>
                 {isEditing ? (
                   <textarea
-                    className="w-full min-h-[100px] p-2 border rounded-md"
+                    className="w-full min-h-[100px] p-4 rounded-xl border-2 border-[#e5e5e5] text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none resize-y"
                     value={plan.medications.join("\n")}
                     onChange={(e) => updatePlan("medications", e.target.value)}
                   />
@@ -347,7 +371,7 @@ export default function Dashboard({ result, patientImage }: Props) {
                 </h3>
                 {isEditing ? (
                   <textarea
-                    className="w-full min-h-[100px] p-2 border rounded-md"
+                    className="w-full min-h-[100px] p-4 rounded-xl border-2 border-[#e5e5e5] text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none resize-y"
                     value={plan.lifestyle_changes.join("\n")}
                     onChange={(e) =>
                       updatePlan("lifestyle_changes", e.target.value)
@@ -377,7 +401,7 @@ export default function Dashboard({ result, patientImage }: Props) {
                 </h3>
                 {isEditing ? (
                   <textarea
-                    className="w-full min-h-[100px] p-2 border rounded-md"
+                    className="w-full min-h-[100px] p-4 rounded-xl border-2 border-[#e5e5e5] text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none resize-y"
                     value={plan.referrals.join("\n")}
                     onChange={(e) => updatePlan("referrals", e.target.value)}
                   />
@@ -394,53 +418,43 @@ export default function Dashboard({ result, patientImage }: Props) {
                   </ul>
                 )}
               </div>
-
-              {isEditing && (
-                <div className="flex justify-end space-x-2 pt-4">
-                  <Button variant="outline" onClick={() => setIsEditing(false)}>
-                    Cancel
-                  </Button>
-                  <Button onClick={handleSave} disabled={isSaving}>
-                    {isSaving ? "Saving..." : "Save Changes"}
-                  </Button>
-                </div>
-              )}
             </CardContent>
           </Card>
 
           {/* Risk Assessment */}
-          <Card className="rounded-xl border border-black/10 bg-white shadow-[0_4px_0_rgba(0,0,0,0.2)]">
+          {/* Risk Assessment */}
+          <Card className="rounded-xl border-2 border-[#e5e5e5] bg-white shadow-[0_4px_0_#e5e5e5]">
             <CardHeader>
               <CardTitle>Risk Assessment</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Overall Risk</span>
+                <span className="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Overall Risk</span>
                 <Badge
                   variant={getRiskBadgeVariant(result.risk_level)}
-                  className="capitalize text-base px-3 py-1"
+                  className="capitalize text-base px-3 py-1 font-bold"
                 >
                   {result.risk_level}
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm font-medium text-gray-600">
                 {getRiskDescription(result.risk_level)}
               </p>
 
-              <div className="pt-4 border-t">
+              <div className="pt-4 border-t border-gray-100">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-600">Safety Score</span>
-                  <span className="font-bold text-lg">
+                  <span className="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Safety Score</span>
+                  <span className="font-bold text-xl text-gray-800">
                     {result.safety_score}/100
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-gray-100 rounded-full h-4 border-b-2 border-gray-200">
                   <div
-                    className={`h-2.5 rounded-full ${result.safety_score > 80
-                      ? "bg-green-600"
+                    className={`h-4 rounded-full ${result.safety_score > 80
+                      ? "bg-[#58cc02] shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)]"
                       : result.safety_score > 50
-                        ? "bg-yellow-500"
-                        : "bg-red-600"
+                        ? "bg-yellow-400 shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)]"
+                        : "bg-[#ff4b4b] shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)]"
                       }`}
                     style={{ width: `${result.safety_score}%` }}
                   ></div>
@@ -453,9 +467,9 @@ export default function Dashboard({ result, patientImage }: Props) {
           {(result.flagged_issues.drug_interactions.length > 0 ||
             result.flagged_issues.contraindications.length > 0 ||
             result.flagged_issues.warnings.length > 0) && (
-              <Card className="rounded-xl border border-black/10 bg-red-50 shadow-[0_4px_0_rgba(0,0,0,0.2)]">
+              <Card className="rounded-xl border-2 border-red-100 bg-red-50 shadow-sm">
                 <CardHeader>
-                  <CardTitle className="text-red-700 flex items-center">
+                  <CardTitle className="text-[#ff4b4b] font-extrabold uppercase tracking-wide flex items-center">
                     <svg
                       className="w-5 h-5 mr-2"
                       fill="none"
@@ -465,7 +479,7 @@ export default function Dashboard({ result, patientImage }: Props) {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth="2"
+                        strokeWidth="3"
                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                       />
                     </svg>
@@ -475,10 +489,10 @@ export default function Dashboard({ result, patientImage }: Props) {
                 <CardContent className="space-y-4">
                   {result.flagged_issues.drug_interactions.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-red-800 text-sm mb-1">
+                      <h4 className="font-bold text-[#ff4b4b] text-xs uppercase tracking-wider mb-1">
                         Drug Interactions
                       </h4>
-                      <ul className="list-disc list-inside text-sm text-red-700">
+                      <ul className="list-disc list-inside text-sm font-medium text-red-600">
                         {result.flagged_issues.drug_interactions.map(
                           (item, i) => (
                             <li key={i}>{item}</li>
@@ -489,10 +503,10 @@ export default function Dashboard({ result, patientImage }: Props) {
                   )}
                   {result.flagged_issues.contraindications.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-red-800 text-sm mb-1">
+                      <h4 className="font-bold text-[#ff4b4b] text-xs uppercase tracking-wider mb-1">
                         Contraindications
                       </h4>
-                      <ul className="list-disc list-inside text-sm text-red-700">
+                      <ul className="list-disc list-inside text-sm font-medium text-red-600">
                         {result.flagged_issues.contraindications.map(
                           (item, i) => (
                             <li key={i}>{item}</li>
@@ -503,10 +517,10 @@ export default function Dashboard({ result, patientImage }: Props) {
                   )}
                   {result.flagged_issues.warnings.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-red-800 text-sm mb-1">
+                      <h4 className="font-bold text-[#ff4b4b] text-xs uppercase tracking-wider mb-1">
                         Warnings
                       </h4>
-                      <ul className="list-disc list-inside text-sm text-red-700">
+                      <ul className="list-disc list-inside text-sm font-medium text-red-600">
                         {result.flagged_issues.warnings.map((item, i) => (
                           <li key={i}>{item}</li>
                         ))}
@@ -518,7 +532,8 @@ export default function Dashboard({ result, patientImage }: Props) {
             )}
 
           {/* Research Summary - RAG System */}
-          <Card className="rounded-xl border border-black/10 bg-white shadow-[0_4px_0_rgba(0,0,0,0.2)]">
+          {/* Research Summary - RAG System */}
+          <Card className="rounded-xl border-2 border-[#e5e5e5] bg-white shadow-[0_4px_0_#e5e5e5]">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2">
                 <svg
@@ -528,10 +543,10 @@ export default function Dashboard({ result, patientImage }: Props) {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="lucide lucide-book-open"
+                  className="text-gray-400"
                 >
                   <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                   <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
@@ -548,8 +563,8 @@ export default function Dashboard({ result, patientImage }: Props) {
                   {result.research_summary}
                 </p>
               ) : (
-                <div className="flex flex-col items-center justify-center space-y-3 py-6 text-center">
-                  <div className="rounded-full bg-slate-100 p-3">
+                <div className="flex flex-col items-center justify-center space-y-3 py-8 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                  <div className="rounded-full bg-white p-3 shadow-sm border border-gray-100">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -560,13 +575,13 @@ export default function Dashboard({ result, patientImage }: Props) {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-slate-400"
+                      className="text-gray-300"
                     >
                       <circle cx="11" cy="11" r="8" />
                       <path d="m21 21-4.3-4.3" />
                     </svg>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">
                     Research compilation in progress...
                   </p>
                 </div>
@@ -619,14 +634,14 @@ export default function Dashboard({ result, patientImage }: Props) {
           )}
         </div>
 
-        {/* Right Column: Special Mentions (5 cols) */}
-        <div className="lg:col-span-5 space-y-5">
+        {/* Right Column: Special Mentions (4 cols) */}
+        <div className="lg:col-span-4 space-y-5">
 
           {/* Meal Plan */}
           {result.meal_plan && (
             <Card className="rounded-xl border border-black/10 bg-white shadow-[0_4px_0_rgba(0,0,0,0.2)] overflow-hidden">
-              <CardHeader className="bg-[#f0fdf4] border-b border-green-100 pb-4">
-                <CardTitle className="text-green-800 flex items-center gap-2">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2">
 
                   Meal Prep Suggestion
                 </CardTitle>
@@ -634,8 +649,8 @@ export default function Dashboard({ result, patientImage }: Props) {
                   Recommended category based on your health profile.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6 pt-6">
-                <div className="flex items-center justify-center bg-white p-3 rounded-lg border border-green-100 shadow-sm">
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-center p-4 rounded-lg">
                   <span className="text-lg font-bold text-gray-800 uppercase tracking-wider">
                     {result.meal_plan.category}
                   </span>
@@ -673,17 +688,17 @@ export default function Dashboard({ result, patientImage }: Props) {
           {/* GoRocky Recommendation */}
           {result.gorocky_recommendation && (
             <Card className="rounded-xl border border-black/10 bg-white shadow-[0_4px_0_rgba(0,0,0,0.2)] overflow-hidden">
-              <CardHeader className="bg-[#fff7ed] border-b border-orange-100 pb-4">
-                <CardTitle className="text-orange-800 flex items-center gap-2">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2">
                   Product Recommendation
                 </CardTitle>
                 <CardDescription>
                   Tailored suggestion from our partner.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6 pt-6">
-                <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg border border-orange-100 shadow-sm text-center">
-                  <span className="text-lg font-bold text-gray-800 uppercase tracking-wider mb-3">
+              <CardContent className="space-y-4">
+                <div className="flex flex-col items-center justify-center p-4 text-center">
+                  <span className="text-lg font-bold text-gray-800 uppercase tracking-wider mb-2">
                     {result.gorocky_recommendation.product}
                   </span>
 
@@ -711,33 +726,47 @@ export default function Dashboard({ result, patientImage }: Props) {
 
       {/* Modals */}
       {showApproveModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4">Approve Treatment Plan</h3>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-2xl max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-200">
+            <h3 className="text-xl font-extrabold text-[#2d2d2d] mb-6 flex items-center gap-2">
+              <span className="bg-[#58cc02] text-white p-1 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+              </span>
+              Approve Treatment Plan
+            </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Reviewer Name</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Reviewer Name</label>
                 <input
                   type="text"
-                  className="w-full border rounded p-2"
+                  className="w-full rounded-xl border-2 border-[#e5e5e5] p-3 text-sm font-bold text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none transition-colors"
                   value={reviewerName}
                   onChange={(e) => setReviewerName(e.target.value)}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Notes</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Notes (Optional)</label>
                 <textarea
-                  className="w-full border rounded p-2"
+                  className="w-full rounded-xl border-2 border-[#e5e5e5] p-3 text-sm font-medium text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none transition-colors min-h-[100px] resize-none"
                   value={reviewerNotes}
                   onChange={(e) => setReviewerNotes(e.target.value)}
-                  placeholder="Optional notes..."
+                  placeholder="Add any additional context..."
                 />
               </div>
-              <div className="flex justify-end space-x-2 pt-2">
-                <Button variant="outline" onClick={() => setShowApproveModal(false)}>Cancel</Button>
-                <Button onClick={handleApprove} disabled={isSaving}>
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  onClick={() => setShowApproveModal(false)}
+                  className="px-5 py-2.5 rounded-xl border-2 border-[#e5e5e5] text-gray-500 font-extrabold uppercase tracking-wide text-xs hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleApprove}
+                  disabled={isSaving}
+                  className="px-6 py-2.5 rounded-xl bg-[#58cc02] border-2 border-[#58cc02] text-white shadow-[0_4px_0_#46a302] font-extrabold uppercase tracking-wide text-xs transition hover:bg-[#61e002] active:translate-y-[2px] active:shadow-none disabled:opacity-70 disabled:pointer-events-none"
+                >
                   {isSaving ? "Approving..." : "Confirm Approval"}
-                </Button>
+                </button>
               </div>
             </div>
           </div>
@@ -745,33 +774,47 @@ export default function Dashboard({ result, patientImage }: Props) {
       )}
 
       {showRejectModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4 text-destructive">Reject Treatment Plan</h3>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-2xl max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-200">
+            <h3 className="text-xl font-extrabold text-[#ff4b4b] mb-6 flex items-center gap-2">
+              <span className="bg-[#ff4b4b] text-white p-1 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+              </span>
+              Reject Treatment Plan
+            </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Reviewer Name</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Reviewer Name</label>
                 <input
                   type="text"
-                  className="w-full border rounded p-2"
+                  className="w-full rounded-xl border-2 border-[#e5e5e5] p-3 text-sm font-bold text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none transition-colors"
                   value={reviewerName}
                   onChange={(e) => setReviewerName(e.target.value)}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Rejection Reason *</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Rejection Reason *</label>
                 <textarea
-                  className="w-full border rounded p-2 border-red-300"
+                  className="w-full rounded-xl border-2 border-red-100 bg-red-50 p-3 text-sm font-medium text-gray-700 placeholder:text-red-300 focus:border-red-300 focus:outline-none transition-colors min-h-[100px] resize-none"
                   value={rejectionReason}
                   onChange={(e) => setRejectionReason(e.target.value)}
                   placeholder="Why is this plan being rejected?"
                 />
               </div>
-              <div className="flex justify-end space-x-2 pt-2">
-                <Button variant="outline" onClick={() => setShowRejectModal(false)}>Cancel</Button>
-                <Button variant="destructive" onClick={handleReject} disabled={isSaving}>
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  onClick={() => setShowRejectModal(false)}
+                  className="px-5 py-2.5 rounded-xl border-2 border-[#e5e5e5] text-gray-500 font-extrabold uppercase tracking-wide text-xs hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleReject}
+                  disabled={isSaving}
+                  className="px-6 py-2.5 rounded-xl bg-[#ff4b4b] border-2 border-[#ff4b4b] text-white shadow-[0_4px_0_#d93838] font-extrabold uppercase tracking-wide text-xs transition hover:bg-[#ff5c5c] active:translate-y-[2px] active:shadow-none disabled:opacity-70 disabled:pointer-events-none"
+                >
                   {isSaving ? "Rejecting..." : "Confirm Rejection"}
-                </Button>
+                </button>
               </div>
             </div>
           </div>

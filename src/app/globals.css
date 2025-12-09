@@ -77,12 +77,27 @@
       "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    zoom: 100%;
   }
 
   html,
   body,
   a,
-  button {
-    cursor: url('/cursor.svg') 10 2, auto;
+  button,
+  select,
+  .cursor-pointer {
+    cursor: url('/cursor-v4.png') 1 1, auto;
+  }
+
+  /* Remove default spinner for number inputs */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
   }
 }

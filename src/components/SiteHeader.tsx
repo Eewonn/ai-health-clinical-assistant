@@ -76,10 +76,15 @@ export function SiteHeader() {
               Loading...
             </Button>
           ) : user ? (
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-extrabold tracking-wide text-gray-700 hidden sm:inline-block">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-extrabold tracking-wide text-gray-700 hidden sm:inline-block mr-4">
                 {user.email}
               </span>
+              <Link href="/patients">
+                <button className="h-[45px] px-4 rounded-xl border-2 border-[#e5e5e5] bg-white text-[13px] font-extrabold tracking-wider text-gray-600 shadow-[0_4px_0_#e5e5e5] transition hover:bg-slate-50 active:shadow-none active:translate-y-[4px] uppercase">
+                  View Patients
+                </button>
+              </Link>
               <button
                 disabled={isSigningOut}
                 onClick={async () => {
@@ -100,7 +105,7 @@ export function SiteHeader() {
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <Link href="/signin">
                 <button className="h-[45px] w-[110px] rounded-xl border-2 border-[#e5e5e5] bg-white text-[13px] font-extrabold tracking-wider text-[#3E9001] shadow-[0_4px_0_#e5e5e5] transition hover:bg-slate-50 active:shadow-none active:translate-y-[4px] uppercase">
                   Sign in

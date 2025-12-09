@@ -69,37 +69,41 @@ export default function MedicalHistoryStep({ formData, updateFormData }: Props) 
       {/* Conditions */}
       <div>
         <p className="mb-5 text-sm font-medium text-foreground">Medical conditions</p>
-        <div className="mb-3 flex gap-2">
+        <div className="mb-3 relative">
           <IntakeInput
             type="text"
             value={newCondition}
             onChange={(e) => setNewCondition(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addCondition())}
             placeholder="e.g., Diabetes, Hypertension"
+            className="pr-16"
           />
-          <Button type="button" onClick={addCondition} variant="secondary">
+          <button
+            type="button"
+            onClick={addCondition}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-900 hover:text-gray-700 uppercase"
+          >
             Add
-          </Button>
+          </button>
         </div>
         <div className="flex flex-wrap gap-2">
           {formData.medical_history.conditions.map((condition, index) => (
-            <Badge
+            <div
               key={index}
-              variant="secondary"
-              className="inline-flex items-center gap-2"
+              className="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-1.5 font-bold text-gray-700"
             >
               {condition}
               <button
                 type="button"
                 onClick={() => removeCondition(index)}
-                className="text-xs text-muted-foreground hover:text-foreground"
+                className="ml-1 text-gray-400 hover:text-gray-600 font-bold"
               >
                 ×
               </button>
-            </Badge>
+            </div>
           ))}
           {formData.medical_history.conditions.length === 0 && (
-            <span className="text-sm text-muted-foreground">No conditions added</span>
+            <span className="text-sm text-gray-400 font-medium">No conditions added</span>
           )}
         </div>
       </div>
@@ -107,37 +111,41 @@ export default function MedicalHistoryStep({ formData, updateFormData }: Props) 
       {/* Allergies */}
       <div>
         <p className="mb-5 text-sm font-medium text-foreground">Allergies</p>
-        <div className="mb-3 flex gap-2">
+        <div className="mb-3 relative">
           <IntakeInput
             type="text"
             value={newAllergy}
             onChange={(e) => setNewAllergy(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addAllergy())}
             placeholder="e.g., Penicillin, Peanuts"
+            className="pr-16"
           />
-          <Button type="button" onClick={addAllergy} variant="secondary">
+          <button
+            type="button"
+            onClick={addAllergy}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-900 hover:text-gray-700 uppercase"
+          >
             Add
-          </Button>
+          </button>
         </div>
         <div className="flex flex-wrap gap-2">
           {formData.medical_history.allergies.map((allergy, index) => (
-            <Badge
+            <div
               key={index}
-              variant="destructive"
-              className="inline-flex items-center gap-2"
+              className="inline-flex items-center gap-2 rounded-lg bg-red-50 px-3 py-1.5 font-bold text-red-600"
             >
               {allergy}
               <button
                 type="button"
                 onClick={() => removeAllergy(index)}
-                className="text-xs text-destructive/80 hover:text-destructive"
+                className="ml-1 text-red-300 hover:text-red-500 font-bold"
               >
                 ×
               </button>
-            </Badge>
+            </div>
           ))}
           {formData.medical_history.allergies.length === 0 && (
-            <span className="text-sm text-muted-foreground">No allergies added</span>
+            <span className="text-sm text-gray-400 font-medium">No allergies added</span>
           )}
         </div>
       </div>
