@@ -61,7 +61,7 @@ export default function IntakePage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-start mt-20 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen w-full flex justify-center items-start mt-4 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-[700px]">
         {analysisState === "idle" && (
           <IntakeForm onFormSubmit={handleFormSubmit} />

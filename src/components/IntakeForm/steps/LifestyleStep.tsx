@@ -1,5 +1,4 @@
-"use client";
-
+import { cn } from "@/lib/utils";
 import { PatientIntakeInput } from "@/lib/types";
 import { IntakeInput } from "../IntakeInput";
 import { IntakeSelect } from "../IntakeSelect";
@@ -58,27 +57,33 @@ export default function LifestyleStep({ formData, updateFormData }: Props) {
           />
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-3">
           <Label className="ml-4">Do you smoke? *</Label>
-          <div className="flex gap-4 ml-4">
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="radio"
-                checked={formData.lifestyle.smoking === true}
-                onChange={() => updateLifestyle({ smoking: true })}
-                className="h-4 w-4 accent-foreground"
-              />
+          <div className="flex w-full gap-4">
+            <button
+              type="button"
+              onClick={() => updateLifestyle({ smoking: true })}
+              className={cn(
+                "flex-1 h-11 rounded-xl border-2 font-bold text-base transition-all",
+                formData.lifestyle.smoking === true
+                  ? "border-[#ff4b4b] bg-red-50 text-[#ff4b4b] shadow-none"
+                  : "border-[#e5e5e5] bg-white text-gray-400 hover:border-gray-300 hover:text-gray-600"
+              )}
+            >
               Yes
-            </label>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="radio"
-                checked={formData.lifestyle.smoking === false}
-                onChange={() => updateLifestyle({ smoking: false })}
-                className="h-4 w-4 accent-foreground"
-              />
+            </button>
+            <button
+              type="button"
+              onClick={() => updateLifestyle({ smoking: false })}
+              className={cn(
+                "flex-1 h-11 rounded-xl border-2 font-bold text-base transition-all",
+                formData.lifestyle.smoking === false
+                  ? "border-[#3E9001] bg-green-50 text-[#3E9001] shadow-none"
+                  : "border-[#e5e5e5] bg-white text-gray-400 hover:border-gray-300 hover:text-gray-600"
+              )}
+            >
               No
-            </label>
+            </button>
           </div>
         </div>
 

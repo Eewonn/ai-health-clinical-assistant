@@ -61,7 +61,7 @@ export default function AnalysisPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center pt-[120px] pb-24 px-4 sm:px-6 lg:px-8 bg-gray-50 print:bg-white print:p-0 print:block">
+    <div className="min-h-screen w-full flex items-center justify-center pt-8 pb-24 px-4 sm:px-6 lg:px-8 bg-gray-50 print:bg-white print:p-0 print:block">
       <div className="w-full max-w-7xl">
         <div className="mb-6 print:hidden">
           <Link

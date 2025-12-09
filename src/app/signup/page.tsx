@@ -23,7 +23,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-4 bg-slate-50">
+    <div className="flex-1 w-full flex flex-col items-center justify-center gap-4 bg-slate-50 pb-40">
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-3xl font-bold text-gray-900">
           Create your account

@@ -100,7 +100,14 @@ export default function MedicationsStep({ formData, updateFormData }: Props) {
           </IntakeSelect>
         </div>
 
-
+        <button
+          type="button"
+          onClick={addMedication}
+          className="mt-4 flex h-12 w-full items-center justify-center rounded-xl border-2 border-[#58cc02] bg-[#58cc02] text-sm font-extrabold uppercase tracking-wide text-white shadow-[0_4px_0_#46a302] transition-all hover:bg-[#61d304] active:shadow-none active:translate-y-[4px] disabled:opacity-50 disabled:shadow-none disabled:translate-y-[4px]"
+          disabled={!newMed.name || !newMed.dose || !newMed.frequency || !newMed.route}
+        >
+          Add Medication
+        </button>
       </div>
 
       {/* Medications list */}

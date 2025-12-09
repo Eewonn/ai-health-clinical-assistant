@@ -3,6 +3,8 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { Analytics } from "@vercel/analytics/next"
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -14,6 +16,9 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: "Sola",
   description: "AI-powered health clinical assistant",
+  icons: {
+    icon: "/app-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +34,8 @@ export default function RootLayout({
         <AuthProvider>
           <div className="relative min-h-screen flex flex-col">
             <SiteHeader />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 flex flex-col pt-[70px]">{children}</main>
+            <SiteFooter />
           </div>
         </AuthProvider>
       </body>
